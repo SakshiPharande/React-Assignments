@@ -18,8 +18,11 @@ export const TodoProvider = ({ children }: { children: ReactNode }) => {
   // Load from Local Storage when the app starts
   useEffect(() => {
     const storedTodos = JSON.parse(localStorage.getItem("todos") || "[]");
-    setTodos(storedTodos);
+    if (storedTodos.length > 0) {
+      setTodos(storedTodos);
+    }
   }, []);
+  
 
   // Save to Local Storage whenever todos change
   useEffect(() => {
@@ -28,12 +31,13 @@ export const TodoProvider = ({ children }: { children: ReactNode }) => {
   
 
   const addTodo = (newTodo: Todo) => {
-      setTodos((prevTodos) => {
-        const updatedTodos = [...prevTodos, newTodo];
-        localStorage.setItem("todos", JSON.stringify(updatedTodos)); // Update Local Storage
-        return updatedTodos;
-      });
-    };
+    setTodos((prevTodos) => {
+      const updatedTodos = [...prevTodos, newTodo];
+      localStorage.setItem("todos", JSON.stringify(updatedTodos)); // Ensure localStorage is updated
+      return updatedTodos;
+    });
+  };
+  
 
   return (
     <TodoContext.Provider value={{ todos, addTodo }}>

@@ -87,7 +87,7 @@ const AddTodo = () => {
                 id="completed"
                 name="completed"
                 type="checkbox"
-                onChange={(e) => formik.setFieldValue("completed", e.target.checked ? 1 : 0)}
+                onChange={(e) => formik.setFieldValue("completed", e.target.checked)}
                 onBlur={formik.handleBlur}
                 checked={formik.values.completed}/>
             {formik.errors.completed ? <div>{formik.errors.completed}</div> : null}
