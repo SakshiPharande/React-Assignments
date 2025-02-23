@@ -1,27 +1,32 @@
 import { useFormik } from "formik"
 import Todo from "../../types/todo";
+import { useTodo } from "../../contexts/TodoContext";
+import { useNavigate } from "react-router-dom";
 
 const AddTodo = () => {
+    const {addTodo} = useTodo();
+    const navigate = useNavigate();
+
     const formik = useFormik({
         initialValues:{
             title : '',
             description: '',
             date : '',
-            completed : 0,
+            completed : false,
         },
         validate: (values) => {
             let errors: Partial<Todo> = {}; // Partial makes all fields optional
       
             if (!values.title) {
               errors.title = "Title is required";
-            } else if (values.title.length < 10) {
-              errors.title = "Title must be at least 10 characters";
+            } else if (values.title.length < 5) {
+              errors.title = "Title must be at least 5 characters";
             }
       
             if (!values.description) {
               errors.description = "Description is required";
-            } else if (values.description.length < 50) {
-              errors.description = "Description must be at least 50 characters";
+            } else if (values.description.length < 30) {
+              errors.description = "Description must be at least 30 characters";
             }
       
             if (!values.date) {
@@ -30,16 +35,19 @@ const AddTodo = () => {
       
             return errors;
           },
-          onSubmit: async (values, { setSubmitting }) => {
+          onSubmit: async (values, { setSubmitting, resetForm }) => {
             console.log("Submitting values:", values);
+            
+            // Add to context
+            addTodo(values);
+      
+            // Reset form fields
+            resetForm();
+      
+            setSubmitting(false);
 
-            // Simulate API call delay (2 sec)
-            await new Promise((resolve) => setTimeout(resolve, 2000));
-
-            console.log("Submitted values:", values);
-            setSubmitting(false); // Enable button after submission
-        },
-    
+            navigate("/");
+          },
     });
 
   return (
@@ -81,8 +89,7 @@ const AddTodo = () => {
                 type="checkbox"
                 onChange={(e) => formik.setFieldValue("completed", e.target.checked ? 1 : 0)}
                 onBlur={formik.handleBlur}
-                checked={formik.values.completed === 1} 
-            />
+                checked={formik.values.completed}/>
             {formik.errors.completed ? <div>{formik.errors.completed}</div> : null}
 
             <button type="submit" disabled={formik.isSubmitting}>

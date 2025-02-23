@@ -1,5 +1,8 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import AddTodo from './components/AddTodo/AddTodo'
+import List from './components/List/List'
+import { TodoProvider } from './contexts/TodoContext'
 
 
 // Import your component
@@ -7,7 +10,14 @@ import AddTodo from './components/AddTodo/AddTodo'
 function App() {
   return (
     <>
-      <AddTodo />
+    <TodoProvider>
+      <BrowserRouter>
+        <Routes>
+            <Route path="/" element={<List />} />
+            <Route path="/addtodo" element={<AddTodo />} />
+        </Routes>
+      </BrowserRouter>
+      </TodoProvider>
     </>
   )
 }
