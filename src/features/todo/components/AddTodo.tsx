@@ -1,7 +1,8 @@
 import { useFormik } from "formik"
-import Todo from "../../types/todo";
-import { useTodo } from "../../contexts/TodoContext";
+import Todo from "../types/todo";
 import { useNavigate } from "react-router-dom";
+import { useTodo } from "../context/TodoContext";
+import Navbar from "../../../components/Navbar/Navbar";
 
 const AddTodo = () => {
     const {addTodo} = useTodo();
@@ -52,6 +53,7 @@ const AddTodo = () => {
 
   return (
     <>
+    <Navbar/>
     <h1>Add Tasks</h1>
         <form onSubmit={formik.handleSubmit}>
             <label htmlFor="title">Title : </label>

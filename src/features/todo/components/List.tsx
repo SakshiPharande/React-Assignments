@@ -1,11 +1,13 @@
-import { useTodo } from "../../contexts/TodoContext"
+import Navbar from "../../../components/Navbar/Navbar";
+import { useTodo } from "../context/TodoContext";
 
 const List = () => {
     const { todos, deleteTodo, toggleTodoStatus } = useTodo();
   return (
     <>
-        <div>List</div>
-        <ul>
+        <Navbar/>
+        <div><h1>List</h1></div>
+        <ul> 
             {todos.slice().reverse().map((todo,index)=>(
                <li key={index}>
                <strong>{todo.title}</strong> - {todo.date} <br />

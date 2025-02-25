@@ -1,4 +1,4 @@
-import Todo from "./todo";
+import Todo from "../types/todo";
 
 interface TodoContextType {
     todos: Todo[];
